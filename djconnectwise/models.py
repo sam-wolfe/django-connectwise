@@ -135,6 +135,9 @@ class ConnectWiseBoard(TimeStampedModel):
 
     name = models.CharField(max_length=255)
     inactive = models.BooleanField(default=False)
+    time_entry_discussion_flag = models.BooleanField(default=False)
+    time_entry_resolution_flag = models.BooleanField(default=False)
+    time_entry_internal_analysis_flag = models.BooleanField(default=False)
     work_role = models.ForeignKey(
         'WorkRole',
         blank=True,
@@ -491,6 +494,9 @@ class CommunicationType(models.Model):
     fax_flag = models.BooleanField(default=False)
     email_flag = models.BooleanField(default=False)
     default_flag = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.description
 
 
 class MyCompanyOther(models.Model):
@@ -1476,6 +1482,7 @@ class Ticket(UpdateConnectWiseMixin, TimeStampedModel):
     VALID_UPDATE_FIELDS = {
         'summary': 'summary',
         'required_date_utc': 'requiredDate',
+        'estimated_start_date': 'estimatedStartDate',
         'budget_hours': 'budgetHours',
         'closed_flag': 'closedFlag',
         'owner': 'owner',
@@ -1496,6 +1503,7 @@ class Ticket(UpdateConnectWiseMixin, TimeStampedModel):
         'automatic_email_cc': 'automaticEmailCc',
         'source': 'source',
         'is_issue_flag': 'isIssueFlag',
+        'customer_updated': 'customerUpdatedFlag',
 
         # Only for POST
         'initial_description': 'initialDescription',
@@ -1569,6 +1577,13 @@ class Ticket(UpdateConnectWiseMixin, TimeStampedModel):
     tasks_completed = models.PositiveSmallIntegerField(blank=True, null=True)
     tasks_total = models.PositiveSmallIntegerField(blank=True, null=True)
     is_issue_flag = models.BooleanField(default=False)
+    contact_name = models.CharField(blank=True, null=True, max_length=62)
+    contact_phone_number = models.CharField(blank=True,
+                                            null=True, max_length=20)
+    contact_phone_extension = models.CharField(blank=True,
+                                               null=True, max_length=15)
+    contact_email_address = models.CharField(blank=True,
+                                             null=True, max_length=250)
 
     # Only used for creation, not synced.
     initial_description = models.CharField(

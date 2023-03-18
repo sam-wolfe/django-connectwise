@@ -854,6 +854,12 @@ class BoardSynchronizer(Synchronizer):
             instance.inactive = json_data.get('inactive')
 
         instance.project_flag = json_data.get('projectFlag', False)
+        instance.time_entry_discussion_flag = \
+            json_data.get('timeEntryDiscussionFlag', False)
+        instance.time_entry_resolution_flag = \
+            json_data.get('timeEntryResolutionFlag', False)
+        instance.time_entry_internal_analysis_flag = \
+            json_data.get('timeEntryInternalAnalysisFlag', False)
 
         self.set_relations(instance, json_data)
         return instance
@@ -2342,6 +2348,11 @@ class TicketSynchronizerMixin:
         instance.lag_days = json_data.get('lagDays')
         instance.lag_non_working_days_flag = \
             json_data.get('lagNonworkingDaysFlag', False)
+        instance.contact_name = json_data.get('contactName')
+        instance.contact_phone_number = json_data.get('contactPhoneNumber')
+        instance.contact_phone_extension = \
+            json_data.get('contactPhoneExtension')
+        instance.contact_email_address = json_data.get('contactEmailAddress')
 
         try:
             predecessor_id = json_data.get('predecessorId')
